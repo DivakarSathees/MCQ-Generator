@@ -23,16 +23,16 @@ exports.aiMcqGenerator = async (req) => {
         let { question_count, options_count, difficulty_level, topic, prompt } = req;
 
         // Validate the input
-        if (!question_count || !options_count || !difficulty_level || !topic) {
-            throw new Error("Missing required parameters.");
-        }
+        // if (!question_count || !options_count || !difficulty_level || !topic) {
+        //     throw new Error("Missing required parameters.");
+        // }
 
         if(!prompt) {
             prompt = `Your task is to create ${question_count} ${difficulty_level}-level scenario-based MCQs on the topic - ${topic} with ${options_count} options for each question & a single correct answer.`;
         }
 
         // check diifficulty level by converting it to lower case == easy then add "the question should not be basic level" in prompt
-        if(difficulty_level.toLowerCase() != "easy") {
+        if(difficulty_level?.toLowerCase() != "easy") {
             prompt += " The question should not be basic level.";
         }
         console.log(prompt);

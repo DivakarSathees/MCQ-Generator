@@ -33,7 +33,9 @@ exports.uploadToPlatform = async (req) => {
       question_data: q.question_data,
       options: q.options.map(opt => ({ text: opt.text, media: "" })), // Add media key if missing
       answer: q.answer,
-      manual_difficulty: q.manual_difficulty,
+ // it should be first letter capital for manual_difficulty
+        manual_difficulty: q.manual_difficulty.charAt(0).toUpperCase() + q.manual_difficulty.slice(1),
+
     };
 
     try {
