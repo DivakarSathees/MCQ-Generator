@@ -17,7 +17,6 @@ exports.uploadToPlatform = async (req) => {
     answer_explanation: {
       args: []
     },
-    question_editor_type: 1,
     linked_concepts: "",
     tags: ["WebApi", "Authentication"],
     question_media: [],
@@ -35,8 +34,12 @@ exports.uploadToPlatform = async (req) => {
       answer: q.answer,
  // it should be first letter capital for manual_difficulty
         manual_difficulty: q.manual_difficulty.charAt(0).toUpperCase() + q.manual_difficulty.slice(1),
-
+        // if question_data contains $$$examly then add question_editor_type 3
+        question_editor_type: q.question_data.includes("$$$examly") ? 3 : 1,
     };
+
+    console.log(requestBody);
+    
 
     try {
       const response = await axios.post(
