@@ -8,6 +8,7 @@ const path = require('path');
 const { aiMcqGenerator } = require('./aiMcqGenerator');
 const { aiVerifyMcq } = require('./aiVerifyMcq');
 const { uploadToPlatform } = require('./uploadToPlatform');
+const { runCode } = require('./runCode');
 
 app.use(cors());
 app.use(express.json());
@@ -57,8 +58,16 @@ app.post("/upload-to-platform", async (req, res) => {
         });
 });
 
-app.get("/upload-one",async (req, res) => {
-
+app.post("/run-code",async (req, res) => {
+    await runCode(req.body)
+        .then((response) => {
+            console.log(response);
+            res.status(200).send({ response });
+        })
+        .catch((error) => {
+            console.error("Error in /run-code:", error);
+            res.status(500).send({ error: "Internal server error." });
+        });
 });
 
 

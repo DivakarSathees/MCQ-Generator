@@ -48,7 +48,8 @@ Given Answer: ${answer}
 Your task is to:
 1. Analyze the question and all options.
 2. Determine whether the provided answer is factually the only correct one.
-3. Return ONLY one word: "Correct" if the answer is correct and no other option is correct, or "Incorrect" otherwise.
+3. If it is code related, run the code and check if the answer is correct.
+4. Return ONLY one word: "Correct" if the answer is correct and no other option is correct, or "Incorrect" otherwise.
 
 Respond with only "Correct" or "Incorrect" — no explanations.
 `;

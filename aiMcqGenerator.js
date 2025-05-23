@@ -54,7 +54,7 @@ exports.aiMcqGenerator = async (req) => {
 console.log(code_snippet);
 
         if(!prompt) {
-            if(code_snippet === 0 ) {
+            if(code_snippet == 0 ) {
                 prompt = `Your task is to create ${question_count} ${difficulty_level}-level scenario-based MCQs on the topic - ${topic} with ${options_count} options for each question & a single correct answer.`;
             }
             else {
