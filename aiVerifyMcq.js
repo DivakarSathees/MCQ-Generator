@@ -19,10 +19,10 @@ exports.aiVerifyMcq = async (req) => {
     // verift the mcq is correct or not
     try {
         console.log(req);
-        let { question, options, answer } = req;
+        let { question, options, answer, questionText, code_snippet } = req;
 
         // Validate the input
-        if (!question || !options || !answer) {
+        if (!question || !options || !answer || !questionText ) {
             throw new Error("Missing required parameters.");
         }
 
@@ -38,18 +38,21 @@ You are an MCQ evaluator. Verify whether the given multiple-choice question is c
 
 Here is the MCQ:
 
-Question: ${question}
-
+Question: ${questionText}
+${code_snippet ? 'Code Snippet: '+code_snippet : ""}
 Options:
 ${options.map((opt, i) => String.fromCharCode(65 + i) + ". " + opt).join("\n")}
-
 Given Answer: ${answer}
-
 Your task is to:
 1. Analyze the question and all options.
 2. Determine whether the provided answer is factually the only correct one.
-3. If it is code related, run the code and check if the answer is correct.
-4. Return ONLY one word: "Correct" if the answer is correct and no other option is correct, or "Incorrect" otherwise.
+3. Check whether the Question is clear and unambiguous, otherwise return "Incorrect".
+4. Check whether there is all required informations in the question, otherwise return "Incorrect".
+${code_snippet ? `5. If the question is related to code, check if the code snippet is relevant to the question.` : ""}
+${code_snippet ? `6. If it is code related, run the code and check if the answer is correct, otherwise return "Incorrect".` : ""}
+${code_snippet ? `7. check whether the code snippet is correct or not (check for syntax error), otherwise return "Incorrect"` : ""}  
+
+Return ONLY one word: "Correct" if all the above mentioned conditions are met, otherwise return "Incorrect".
 
 Respond with only "Correct" or "Incorrect" — no explanations.
 `;
@@ -57,8 +60,8 @@ Respond with only "Correct" or "Incorrect" — no explanations.
         console.log(prompt);
 
         const response = await grop.chat.completions.create({
-            model: 'llama3-8b-8192', 
-            // model: 'llama-3.3-70b-versatile', 
+            // model: 'llama3-8b-8192', 
+            model: 'llama-3.3-70b-versatile', 
             // model: 'gemma2-9b-it',  // or 'gpt-4' if using GPT-4
             // prompt: prompt,
             messages: [

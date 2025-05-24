@@ -104,22 +104,23 @@ exports.runCode = async (req) => {
         // console.log(code_snippet);
 
         const response = await grop.chat.completions.create({
-            model: "llama3-8b-8192",
+            // model: "llama3-8b-8192",
+            model: 'llama-3.3-70b-versatile', 
             messages: [
                 {
                     role: "user",
-                    content: `You are a helpful code assistant. Complete the following code snippet:\n\n${code_snippet}\n\nReturn only the complete executable code in the following format:\n\n
-                    
-                    if there is any error in code snippet, give the error message.
-                    Please respond with the following strict JSON format as an array:
-                    [
-                      {
-                        "text": "Sample question here",
-                        "code_snippet": "Complete code snippet here,
-                        "error": "Yes or No",
-                        "error_message": "Error message here if any"
-                      }                          
-                    ]`
+                    content: `You are a helpful code assistant. Complete the following code snippet with all the required headers:\n\n${code_snippet}\n\nReturn only the complete executable code in the following format:\n\n
+note: code snippet should be with all the required headers and imports, so that it can be executed directly in a environment.
+if there is any error in code snippet, give the error message.
+Please respond with the following strict JSON format as an array:
+[
+  {
+    "text": "Sample text here",
+    "code_snippet": "Complete code snippet here",
+    "error": "Yes or No",
+    "error_message": "Error message here if any"
+  }                          
+]`
                     
                 },
             ]
@@ -163,7 +164,7 @@ exports.runCode = async (req) => {
         
         const result = await executeCSharpCode(parsedJson[0]['code_snippet']);
         console.log(result);
-        return result;
+        return { code_snippet: parsedJson[0]['code_snippet'], result: result };
     } catch (error) {
         console.error("Error in runCode:", error);
         throw error;
