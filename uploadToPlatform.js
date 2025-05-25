@@ -2,6 +2,8 @@ const axios = require("axios");
 
 exports.uploadToPlatform = async (req) => {
   const authToken = req.token;
+  const qb_id = req.qb_id; // Question Bank ID
+  const createdBy = req.createdBy; // User ID
 
   const questions = req.response; // Array of MCQs
 
@@ -18,10 +20,10 @@ exports.uploadToPlatform = async (req) => {
       args: []
     },
     linked_concepts: "",
-    tags: ["WebApi", "Authentication"],
+    tags: [],
     question_media: [],
-    qb_id: "981fe2aa-f48a-43f3-9a06-e9c7c2a3cf30",
-    createdBy: "bd3c2f4d-b53d-4de6-82c9-00413b70756c"
+    qb_id: qb_id ? qb_id : "4cd4d5ec-5940-4b41-ac48-6b6c6fce324c",
+    createdBy: createdBy ? createdBy : "bd3c2f4d-b53d-4de6-82c9-00413b70756c"
   };
 
   const results = [];

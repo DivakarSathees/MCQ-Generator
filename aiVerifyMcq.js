@@ -52,9 +52,9 @@ ${code_snippet ? `5. If the question is related to code, check if the code snipp
 ${code_snippet ? `6. If it is code related, run the code and check if the answer is correct, otherwise return "Incorrect".` : ""}
 ${code_snippet ? `7. check whether the code snippet is correct or not (check for syntax error), otherwise return "Incorrect"` : ""}  
 
-Return ONLY one word: "Correct" if all the above mentioned conditions are met, otherwise return "Incorrect".
+Return ONLY one word: "Correct" if all the above mentioned conditions are met, otherwise return "Incorrect with explanation".
 
-Respond with only "Correct" or "Incorrect" — no explanations.
+Respond with only "Correct" - no explanations or "Incorrect with explanation"
 `;
 
         console.log(prompt);

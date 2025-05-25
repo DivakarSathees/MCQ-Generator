@@ -45,24 +45,31 @@ function extractJSONArray(text) {
     return jsonArrayText;
 }
 
-const JUDGE0_API = "https://judge0-ce.p.rapidapi.com"
-const RAPIDAPI_KEY = "87e83c0011msh8f156c4948b14a9p141b80jsn54f2ecf4cedb";
+// const JUDGE0_API = "https://judge0-ce.p.rapidapi.com"
+const JUDGE0_API = "https://judge029.p.rapidapi.com"
+// const RAPIDAPI_KEY = "87e83c0011msh8f156c4948b14a9p141b80jsn54f2ecf4cedb";
+const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 
-async function executeCSharpCode(code) {
+async function executeCSharpCode(code, language) {
     try {
         console.log("Executing C# code...");
         console.log(code);
+        console.log(language);
+        
         
         const submission = await axios.post(`${JUDGE0_API}/submissions`, {
-          language_id: 51, // C# language id in Judge0
+          // check language & set the correct language_id if charp then id 51, if java then id 62, if javascript then id 63
+          // language_id: 51, // C# languageuage ID
+          language_id: language === 'java' ? 62 : language === 'javascript' ? 63 : language === 'csharp' ? 51 : language === 'c' ? 50 : language === 'cpp' ? 54 : language === 'python' ? 71 : language === 'typescript' ? 74 : language === 'bash' ? 46 : language === 'go' ? 78 : language === 'ruby' ? 79 : language === 'php' ? 82 : language === 'rust' ? 83 : language === 'kotlin' ? 84 : language === 'swift' ? 85 : language === 'dart' ? 86 : 51, // Default to C# if not recognized
           source_code: code,
           stdin: '',
         }, {
           headers: {
             'Content-Type': 'application/json',
             'X-RapidAPI-Key': RAPIDAPI_KEY,
-            'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+            'X-RapidAPI-Host': 'judge029.p.rapidapi.com'
+            // 'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
           }
         });
     
@@ -75,7 +82,8 @@ async function executeCSharpCode(code) {
           result = await axios.get(`${JUDGE0_API}/submissions/${token}`, {
             headers: {
               'X-RapidAPI-Key': RAPIDAPI_KEY,
-              'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+              // 'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+              'X-RapidAPI-Host': 'judge029.p.rapidapi.com'
             }
           });
         } while (result.data.status.id <= 2); // 1 or 2 = queued or processing
@@ -100,8 +108,10 @@ async function executeCSharpCode(code) {
 
 exports.runCode = async (req) => {
     try {
-        let { code_snippet } = req;
+        let { code_snippet, language } = req;
         // console.log(code_snippet);
+        let code_snippet1 = code_snippet;
+        if (language != 'javascript' && language != 'python') {
 
         const response = await grop.chat.completions.create({
             // model: "llama3-8b-8192",
@@ -109,8 +119,9 @@ exports.runCode = async (req) => {
             messages: [
                 {
                     role: "user",
-                    content: `You are a helpful code assistant. Complete the following code snippet with all the required headers:\n\n${code_snippet}\n\nReturn only the complete executable code in the following format:\n\n
+                    content: `You are a helpful code assistant. Complete the following ${language} code snippet with all the required headers:\n\n${code_snippet}\n\nReturn only the complete executable ${language} code in the following format:\n\n
 note: code snippet should be with all the required headers and imports, so that it can be executed directly in a environment.
+${language === 'java' ? `if the code is java then the class name should be Main` : ''}\n\n
 if there is any error in code snippet, give the error message.
 Please respond with the following strict JSON format as an array:
 [
@@ -158,13 +169,15 @@ Please respond with the following strict JSON format as an array:
         //     throw new Error("The AI response is not valid JSON.");
         // }
         console.log("Parsed JSON:", parsedJson[0]['code_snippet']);
+        code_snippet1 = parsedJson[0]['code_snippet'];
         if (parsedJson[0]['error'] === "Yes") {
             return parsedJson[0]['error_message'];
         }
+      }
         
-        const result = await executeCSharpCode(parsedJson[0]['code_snippet']);
+        const result = await executeCSharpCode(code_snippet1, language);
         console.log(result);
-        return { code_snippet: parsedJson[0]['code_snippet'], result: result };
+        return { code_snippet: code_snippet1, result: result };
     } catch (error) {
         console.error("Error in runCode:", error);
         throw error;

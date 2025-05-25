@@ -58,7 +58,7 @@ console.log(code_snippet);
                 prompt = `Your task is to create ${question_count} ${difficulty_level}-level scenario-based MCQs on the topic - ${topic} with ${options_count} options for each question & a single correct answer.`;
             }
             else {
-                prompt = `Your task is to create ${question_count} ${difficulty_level}-level code snippet based MCQs on the topic - ${topic} with ${options_count} options for each question & a single correct answer. What is the output of the following code snippet? based MCQs.`;
+                prompt = `Your task is to create ${question_count} ${difficulty_level}-level code snippet based MCQs on the topic - ${topic} with ${options_count} options for each question & a single correct answer.`;
             }
         }
 
@@ -102,8 +102,8 @@ Do not include any explanations, extra text, or markdown formatting — return o
         }
 
         const response = await grop.chat.completions.create({
-            model: 'llama3-8b-8192', 
-            // model: 'llama-3.3-70b-versatile', 
+            // model: 'llama3-8b-8192', 
+            model: 'llama-3.3-70b-versatile', 
             // model: 'gemma2-9b-it',  // or 'gpt-4' if using GPT-4
             // prompt: prompt,
             messages: [
