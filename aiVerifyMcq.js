@@ -60,8 +60,8 @@ Respond with only "Correct" - no explanations or "Incorrect with explanation"
         console.log(prompt);
 
         const response = await grop.chat.completions.create({
-            // model: 'llama3-8b-8192', 
-            model: 'llama-3.3-70b-versatile', 
+            model: 'llama3-8b-8192', 
+            // model: 'llama-3.3-70b-versatile', 
             // model: 'gemma2-9b-it',  // or 'gpt-4' if using GPT-4
             // prompt: prompt,
             messages: [

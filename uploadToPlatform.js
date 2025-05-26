@@ -3,15 +3,18 @@ const axios = require("axios");
 exports.uploadToPlatform = async (req) => {
   const authToken = req.token;
   const qb_id = req.qb_id; // Question Bank ID
+  const topic_id = req.topic_id; // Topic ID
+  const sub_topic_id = req.sub_topic_id; // Sub-topic ID
+  const subject_id = req.subject_id; // Subject ID
   const createdBy = req.createdBy; // User ID
 
   const questions = req.response; // Array of MCQs
 
   const baseData = {
     question_type: "mcq_single_correct",
-    subject_id: "b243d321-f12d-4913-80a2-8988f3297c22",
-    topic_id: "573a0a21-a1c2-4e9a-8f39-804c30cd8253",
-    sub_topic_id: "e2b874a7-1ece-4569-bd0a-46d67762a419",
+    subject_id: subject_id,
+    topic_id: topic_id,
+    sub_topic_id: sub_topic_id,
     blooms_taxonomy: null,
     course_outcome: null,
     program_outcome: null,

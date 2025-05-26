@@ -85,7 +85,7 @@ console.log(code_snippet);
       "args": ["Correct answer text"],
       "partial": []
     },
-    "manual_difficulty": ${difficulty_level ? `"${difficulty_level}"` : "level of difficulty"},
+    "manual_difficulty": ${difficulty_level ? `"${difficulty_level}"` : "level of difficulty (Easy, Medium, Hard)"},
   }
 ]
 
@@ -102,8 +102,8 @@ Do not include any explanations, extra text, or markdown formatting — return o
         }
 
         const response = await grop.chat.completions.create({
-            // model: 'llama3-8b-8192', 
-            model: 'llama-3.3-70b-versatile', 
+            model: 'llama3-8b-8192', 
+            // model: 'llama-3.3-70b-versatile', 
             // model: 'gemma2-9b-it',  // or 'gpt-4' if using GPT-4
             // prompt: prompt,
             messages: [
