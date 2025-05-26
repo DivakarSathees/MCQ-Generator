@@ -9,9 +9,9 @@ exports.uploadToPlatform = async (req) => {
 
   const baseData = {
     question_type: "mcq_single_correct",
-    subject_id: "60015d86-16a3-45e3-8f64-13f85dea35d8",
-    topic_id: "0f0397fb-bf83-4344-ab8f-dbb191ffcf61",
-    sub_topic_id: "c09f59e9-5855-4519-b9c6-5f65cdee24c0",
+    subject_id: "b243d321-f12d-4913-80a2-8988f3297c22",
+    topic_id: "573a0a21-a1c2-4e9a-8f39-804c30cd8253",
+    sub_topic_id: "e2b874a7-1ece-4569-bd0a-46d67762a419",
     blooms_taxonomy: null,
     course_outcome: null,
     program_outcome: null,
